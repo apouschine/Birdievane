@@ -1,0 +1,7 @@
+This is a side project, indended for personal and friends and family use, designed to estimate the effects of local wind on a golf ball. Normally, the effects are estimated as something like "aim for the left edge of the bunker on the right", and this project, though far from perfect at least makes that a more quantifiable number.
+
+This is far from perfect, and many things like tree coverage and swirling effects, changes in altitude, and the effects of spin are not considered, as modelling them proved to be too dificult for me. However, as this will almost certianly never be approved by the PGA, USGA, etc. this level of accuracy should be fine for casual golfers. Additionally, human-introduced variations in swing parameters like spin, launch speed, and club face angle provide a ton of uncertainty already, and those can never be accounted for.
+
+The geographic updating functionality is not included due to not posting API keys, as that will be from the weatherunderground API, and the orientation detection isn't done because this app hasn't yet been migrated to an iPhone, and the IOSsimulator doens't include the necessary hardware. Unless there is significant interest, this will just use the free weatherunderground API, which gives 10 lookups per minute and 500 per day, so this will not be able to handle a large userbase without updating to a non-free API.
+
+Models for ball flight and wind force are included in calculatorViewController.swift and Club.swift, above the functions that use them.
