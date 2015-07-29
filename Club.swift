@@ -15,11 +15,11 @@ class Club {
     var loft: Int
     var v0 = 0.0
     
-    init(name: String, carry: Int, loft: Int) {
+    init(name: String, carry: Int, loft: Int, v0: Double) {
         self.name = name
         self.carry = carry
         self.loft = loft
-        self.v0 = get_velocity(carry, loft: loft)
+        self.v0 = v0
     }
     
     func get_velocity(carry: Int, loft: Int) -> Double {
@@ -27,6 +27,7 @@ class Club {
         // http://nothingnerdy.wikispaces.com/file/view/Flight%20of%20golf%20ball%20-%20sample%20EE.pdf
         
         let delta_t = 0.01
+        var t = 0.0
         let A = 0.00139
         var zpos = 0.0
         var xpos = 0.0
@@ -64,17 +65,23 @@ class Club {
         while round((100*sim_dist)/100) != dist_final {
             // inner loop to check how far the ball flies given an initial velocity
             
+            
             theta = loft_radians
             v_z = v_0 * sin(theta)
             v_x = v_0 * cos(theta)
             v = v_0
             xpos = 0.0
             zpos = 0.0
+            t = 0.0
             
             while true {
                 // hit ground, and is going down, to avoid initial condition
                 if(zpos <= 0 && v_z < 0) {
                     break
+                }
+                
+                if (t > 12.0) {
+                    return -1.0
                 }
                 
                 // calculate the forces
@@ -92,6 +99,8 @@ class Club {
                 // update parameters
                 v = sqrt(v_x * v_x + v_z * v_z)
                 theta = atan(v_z/v_x)
+                
+                t = t + delta_t
             }
             
             // update iniital velocity value, if needed

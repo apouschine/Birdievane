@@ -89,13 +89,9 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
         
         // calculate for regular wind speed
         // println("regular")
-        let reg_string = self.calculate(wind.speed, distance: target_dist, loft: active_club!.loft, d_height: d_height, v_0: v_0, wind_angle: wind.angle, flight_angle: dir)
+        let reg_string = self.calculate(wind.speed, wind_speed_gust: wind.speed_gust, distance: target_dist, loft: active_club!.loft, d_height: d_height, v_0: v_0, wind_angle: wind.angle, flight_angle: dir)
         
-        // calculate for gust speed
-        // println("gust")
-        let gust_string = self.calculate(wind.speed_gust, distance: target_dist, loft: active_club!.loft, d_height: d_height, v_0: v_0, wind_angle: wind.angle, flight_angle: dir)
-        
-        showMessages(reg_string, msg2: gust_string)
+        showMessages(reg_string)
         
     }
 
@@ -109,9 +105,7 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
         self.heading = newHeading
     }
     
-    func calculate(wind_speed: Double, distance: Int, loft: Int, d_height: Int, v_0: Double, wind_angle: Double, flight_angle: Double) -> String {
-        // possible issue for beta: why is the x more responsive to wind than the y?
-        
+    func calculate(wind_speed: Double, wind_speed_gust: Double, distance: Int, loft: Int, d_height: Int, v_0: Double, wind_angle: Double, flight_angle: Double) -> String {
         // ball flight model from
         // http://nothingnerdy.wikispaces.com/file/view/Flight%20of%20golf%20ball%20-%20sample%20EE.pdf
         
@@ -119,6 +113,7 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
         // http://www.luxfamily.com/jimlux/robot/windball.htm
         
         let delta_t = 0.01
+        var t = 0.0
         let A = 0.00139 // projected area of the ball
         let rho = 1.22 // density of air
         let drag_coef = 0.235 // estimated from model
@@ -139,7 +134,6 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
         var flight_phi = 0.0
         
         let mph_to_mps_conversion_factor = 0.447
-        let v_wind = mph_to_mps_conversion_factor * wind_speed
         
         var f_drag: Double
         var f_lift: Double
@@ -157,65 +151,104 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
         var v_x = v_0 * sin(theta)
         var v_y = 0.0 // assuming no horizontal motion at launch
         var v_z = v_0 * cos(theta)
+
+        var v_wind = 0.0
+        var output_str = ""
         
-        while true{
-            // ball hit ground while going down, stop simulation
-            if (zpos <= d_height_meters && v_z < 0) {
-                break
+        for i in 0...1 {
+            if i == 0 {
+                v_wind = mph_to_mps_conversion_factor * wind_speed
+                output_str = output_str + "normal wind: "
+            }
+
+            if i == 1 {
+                v_wind = mph_to_mps_conversion_factor * wind_speed_gust
+                output_str = output_str + "\ngust: "
+            }
+
+            t = 0.0
+            xpos = 0.0
+            ypos = 0.0
+            zpos = 0.0
+            theta = loft_radians
+            flight_phi = 0.0
+            v = v_0
+            var v_x = v_0 * sin(theta)
+            var v_y = 0.0 // assuming no horizontal motion at launch
+            var v_z = v_0 * cos(theta)
+
+            while true{
+                // ball hit ground while going down, stop simulation
+                if (zpos <= d_height_meters && v_z < 0) {
+                    break
+                }
+                
+                if (t > 12.0) {
+                    return ""
+                }
+                
+                // calculate forces
+                f_drag = 0.5 * drag_coef * rho * A * v * v
+                f_lift = 0.5 * lift_coef * rho * A * v * v
+                f_wind = wind_coef * v_wind * v_wind * rad_ball * rad_ball // model on luxfamily.com
+                
+                // update velocities
+                v_x = v * cos(theta) * cos(flight_phi) - 0.5 * (f_drag * cos(theta) * cos(flight_phi) + f_lift * sin(theta) + f_wind * cos(wind_phi)) * delta_t / m_ball
+                v_y = v * cos(theta) * sin(flight_phi) - 0.5 * (f_drag * cos(theta) * sin(flight_phi) + f_wind * sin(wind_phi)) * delta_t / m_ball
+                v_z = v * sin(theta) - 0.5 * (f_drag * sin(theta) - f_lift * cos(theta) + g * m_ball) * delta_t / m_ball
+                
+                xpos = xpos + v_x * delta_t
+                ypos = ypos + v_y * delta_t
+                zpos = zpos + v_z * delta_t
+                
+                v = sqrt(v_x * v_x + v_y * v_y + v_z * v_z)
+                v_xyplane = sqrt(v_x * v_x + v_y * v_y)
+                flight_phi = atan(v_y/v_x)
+                theta = atan(v_z/v_xyplane)
             }
             
-            // calculate forces
-            f_drag = 0.5 * drag_coef * rho * A * v * v
-            f_lift = 0.5 * lift_coef * rho * A * v * v
-            f_wind = wind_coef * v_wind * v_wind * rad_ball * rad_ball // model on luxfamily.com
+            xpos = xpos / meters_to_yards_conversion_factor
+            ypos = ypos / meters_to_yards_conversion_factor
             
-            // update velocities
-            v_x = v * cos(theta) * cos(flight_phi) - 0.5 * (f_drag * cos(theta) * cos(flight_phi) + f_lift * sin(theta) + f_wind * cos(wind_phi)) * delta_t / m_ball
-            v_y = v * cos(theta) * sin(flight_phi) - 0.5 * (f_drag * cos(theta) * sin(flight_phi) + f_wind * sin(wind_phi)) * delta_t / m_ball
-            v_z = v * sin(theta) - 0.5 * (f_drag * sin(theta) - f_lift * cos(theta) + g * m_ball) * delta_t / m_ball
+            var dx = xpos - Double(distance)
             
-            xpos = xpos + v_x * delta_t
-            ypos = ypos + v_y * delta_t
-            zpos = zpos + v_z * delta_t
+            var x_sign = ""
+            var y_sign = ""
             
-            v = sqrt(v_x * v_x + v_y * v_y + v_z * v_z)
-            v_xyplane = sqrt(v_x * v_x + v_y * v_y)
-            flight_phi = atan(v_y/v_x)
-            theta = atan(v_z/v_xyplane)
+            if dx < 0 {
+                x_sign = " yards shorter, "
+            }
+            else {
+                x_sign = " yards longer, "
+            }
+            
+            if ypos < 0 {
+                y_sign = " yards right"
+            }
+            
+            else {
+                y_sign = " yards left"
+            }
+            
+            dx = abs(dx)
+            ypos = abs(ypos)
+            
+            output_str = output_str + String(format: "%.2f", dx) + x_sign + String(format:"%.2f", ypos) + y_sign
         }
-        
-        xpos = xpos / meters_to_yards_conversion_factor
-        ypos = ypos / meters_to_yards_conversion_factor
-        
-        var dx = xpos - Double(distance)
-        
-        var x_sign = ""
-        var y_sign = ""
-        
-        if dx < 0 {
-            x_sign = " yards shorter, "
-        }
-        else {
-            x_sign = " yards longer, "
-        }
-        
-        if ypos < 0 {
-            y_sign = " yards right"
-        }
-        
-        else {
-            y_sign = " yards left"
-        }
-        
-        dx = abs(dx)
-        ypos = abs(ypos)
-        
-        let output_str = String(format: "%.2f", dx) + x_sign + String(format:"%.2f", ypos) + y_sign
         return output_str
     }
     
-    func showMessages(msg1: String, msg2: String) {
-        let msg = "regular wind: " + msg1 + "\n" + "gust: " + msg2
+    func showMessages(msg: String) {
+        var display = ""
+        
+        if msg == "" {
+            display = "Error: simulated ball took more than 12 seconds to land, check club parameters"
+        }
+        else {
+            display = msg
+        }
+        
+        
         
         let alertController = UIAlertController(title: "Wind Effects", message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alertController.addAction(UIAlertAction(title: "Calculate Again", style: UIAlertActionStyle.Default,handler: nil))
