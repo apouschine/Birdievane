@@ -21,7 +21,6 @@ class WindViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -31,8 +30,6 @@ class WindViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        Conds.sharedInstance.update()
         let wind = Conds.sharedInstance.wind
         self.windSpeedLabel.text = "Wind Speed: " + String(format: "%.2f",wind.speed) + " mph"
         self.windGustSpeedLabel.text = "Wind Gust Speed: " + String(format: "%.2f", wind.speed_gust) + " mph"
@@ -48,6 +45,7 @@ class WindViewController: UIViewController, CLLocationManagerDelegate {
         var userLocation:CLLocation = locations[0] as CLLocation
         let lat = manager.location.coordinate.latitude
         let long = manager.location.coordinate.longitude
+        Conds.sharedInstance.update(lat, long:long)
         
         let center = CLLocationCoordinate2D(latitude: lat, longitude: long)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
@@ -55,6 +53,7 @@ class WindViewController: UIViewController, CLLocationManagerDelegate {
         self.sanityCheckMap.setRegion(region, animated: true)
         self.sanityCheckMap.showsUserLocation = true
     }
+    
     
     
 }

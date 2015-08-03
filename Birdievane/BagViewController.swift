@@ -47,7 +47,7 @@ class BagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("selected")
+        performSegueWithIdentifier("showEditClub", sender: tableView)
         
     }
     

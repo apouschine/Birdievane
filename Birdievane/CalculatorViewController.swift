@@ -17,6 +17,9 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
     @IBOutlet var distanceField: UITextField!
     @IBOutlet var heightField: UITextField!
     
+    var lat = 0.0
+    var long = 0.0
+    
     var clubnames: [String] = []
     var heading: CLHeading!
     // to ensure there is always a club picked
@@ -61,7 +64,7 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
             return
         }
         
-        Conds.sharedInstance.update()
+        Conds.sharedInstance.update(lat, long: long)
         let wind = Conds.sharedInstance.wind
         
         // let dir = heading.trueHeading
@@ -271,6 +274,14 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         active_club = Bag.sharedInstance.get(row)
+    }
+    
+    //MARK: - Location access
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        var userLocation:CLLocation = locations[0] as CLLocation
+        lat = manager.location.coordinate.latitude
+        long = manager.location.coordinate.longitude
+        Conds.sharedInstance.update(lat, long: long)
     }
 
     /*
