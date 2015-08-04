@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1077" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -399,7 +399,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n2y-aI-FAc">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n2y-aI-FAc">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -411,9 +411,10 @@ For the Calculator, leave the target carry distance blank for a full swing, or e
 
 All distances are in yards
 
-Weather data proivded by OpenWeatherMap</string>
+Weather data proivded by OpenWeatherMap http://openweathermap.org/</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="IgP-GD-A2M"/>
@@ -547,25 +548,25 @@ Weather data proivded by OpenWeatherMap</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="AcG-Ch-ENr" firstAttribute="bottom" secondItem="aCv-eZ-Tax" secondAttribute="top" id="Dc0-wD-8iF"/>
-                            <constraint firstItem="AcG-Ch-ENr" firstAttribute="trailing" secondItem="d5o-ur-Pcc" secondAttribute="trailingMargin" id="VgA-Su-aDz"/>
-                            <constraint firstItem="AcG-Ch-ENr" firstAttribute="leading" secondItem="d5o-ur-Pcc" secondAttribute="leadingMargin" id="eXx-XH-DdT"/>
-                            <constraint firstItem="AcG-Ch-ENr" firstAttribute="top" secondItem="d5o-ur-Pcc" secondAttribute="top" id="n4Z-Fi-hc7"/>
+                            <constraint firstAttribute="bottom" secondItem="AcG-Ch-ENr" secondAttribute="bottom" constant="20" symbolic="YES" id="Mn3-cb-2Ha"/>
+                            <constraint firstItem="AcG-Ch-ENr" firstAttribute="trailing" secondItem="d5o-ur-Pcc" secondAttribute="trailingMargin" id="OuQ-9D-hrv"/>
+                            <constraint firstItem="AcG-Ch-ENr" firstAttribute="top" secondItem="d5o-ur-Pcc" secondAttribute="top" id="RCF-ai-Am8"/>
+                            <constraint firstItem="AcG-Ch-ENr" firstAttribute="leading" secondItem="d5o-ur-Pcc" secondAttribute="leadingMargin" id="u3P-tS-vjY"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="Dc0-wD-8iF"/>
-                                <exclude reference="VgA-Su-aDz"/>
-                                <exclude reference="eXx-XH-DdT"/>
-                                <exclude reference="n4Z-Fi-hc7"/>
+                                <exclude reference="Mn3-cb-2Ha"/>
+                                <exclude reference="OuQ-9D-hrv"/>
+                                <exclude reference="RCF-ai-Am8"/>
+                                <exclude reference="u3P-tS-vjY"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="constraints">
-                                <include reference="Dc0-wD-8iF"/>
-                                <include reference="VgA-Su-aDz"/>
-                                <include reference="eXx-XH-DdT"/>
-                                <include reference="n4Z-Fi-hc7"/>
+                                <include reference="Mn3-cb-2Ha"/>
+                                <include reference="OuQ-9D-hrv"/>
+                                <include reference="RCF-ai-Am8"/>
+                                <include reference="u3P-tS-vjY"/>
                             </mask>
                         </variation>
                     </view>
@@ -578,7 +579,7 @@ Weather data proivded by OpenWeatherMap</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4zt-RS-47n" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1527" y="748.5"/>
+            <point key="canvasLocation" x="1527" y="747"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lpF-vg-edQ">
@@ -709,12 +710,12 @@ Weather data proivded by OpenWeatherMap</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hFa-1z-aWw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2353.5" y="1128"/>
+            <point key="canvasLocation" x="2354" y="1295"/>
         </scene>
-        <!--View Controller-->
+        <!--Edit Club-->
         <scene sceneID="tO8-ma-rFi">
             <objects>
-                <viewController id="agw-vg-tmL" sceneMemberID="viewController">
+                <viewController id="agw-vg-tmL" customClass="EditClubViewController" customModule="Birdievane" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RMC-0N-dcF"/>
                         <viewControllerLayoutGuide type="bottom" id="qiq-C7-IYD"/>
@@ -723,29 +724,92 @@ Weather data proivded by OpenWeatherMap</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Editing Functionality in development" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZnJ-d1-tkR">
-                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="61" y="72" width="278" height="21"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4LC-M0-yUS">
+                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="146" id="tTG-Mi-aKg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="tTG-Mi-aKg"/>
+                                    </mask>
                                 </variation>
-                            </label>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="tTG-Mi-aKg"/>
+                                    </mask>
+                                </variation>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nPT-69-JQD">
+                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="I0M-KO-7ot"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="I0M-KO-7ot"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="I0M-KO-7ot"/>
+                                    </mask>
+                                </variation>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="obL-21-kop">
+                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="obL-21-kop" firstAttribute="top" secondItem="nPT-69-JQD" secondAttribute="bottom" constant="30" id="2xP-1Y-9Y4"/>
+                            <constraint firstItem="4LC-M0-yUS" firstAttribute="centerX" secondItem="BLC-jn-H0N" secondAttribute="centerX" id="4Q8-I0-Oty"/>
+                            <constraint firstItem="obL-21-kop" firstAttribute="leading" secondItem="nPT-69-JQD" secondAttribute="leading" id="5Ss-Hg-FSd"/>
+                            <constraint firstItem="obL-21-kop" firstAttribute="trailing" secondItem="nPT-69-JQD" secondAttribute="trailing" id="I3T-2w-cmt"/>
+                            <constraint firstItem="nPT-69-JQD" firstAttribute="centerX" secondItem="4LC-M0-yUS" secondAttribute="centerX" id="Pkn-Jm-7Mp"/>
+                            <constraint firstItem="nPT-69-JQD" firstAttribute="top" secondItem="4LC-M0-yUS" secondAttribute="bottom" constant="35" id="ubh-fq-C2D"/>
+                            <constraint firstItem="4LC-M0-yUS" firstAttribute="top" secondItem="RMC-0N-dcF" secondAttribute="bottom" constant="31" id="x7T-IC-C5M"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="ZnJ-d1-tkR"/>
+                                <exclude reference="4LC-M0-yUS"/>
+                                <exclude reference="nPT-69-JQD"/>
+                                <exclude reference="obL-21-kop"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="4Q8-I0-Oty"/>
+                                <exclude reference="x7T-IC-C5M"/>
+                                <exclude reference="Pkn-Jm-7Mp"/>
+                                <exclude reference="ubh-fq-C2D"/>
+                                <exclude reference="2xP-1Y-9Y4"/>
+                                <exclude reference="5Ss-Hg-FSd"/>
+                                <exclude reference="I3T-2w-cmt"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
-                                <include reference="ZnJ-d1-tkR"/>
+                                <include reference="4LC-M0-yUS"/>
+                                <include reference="nPT-69-JQD"/>
+                                <include reference="obL-21-kop"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="4Q8-I0-Oty"/>
+                                <include reference="x7T-IC-C5M"/>
+                                <include reference="Pkn-Jm-7Mp"/>
+                                <include reference="ubh-fq-C2D"/>
+                                <include reference="2xP-1Y-9Y4"/>
+                                <include reference="5Ss-Hg-FSd"/>
+                                <include reference="I3T-2w-cmt"/>
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="U8K-2c-GAj">
+                    <navigationItem key="navigationItem" title="Edit Club" id="U8K-2c-GAj">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="d5D-PW-A6r">
                             <connections>
                                 <segue destination="sds-r8-JH5" kind="custom" identifier="dismissAndStop" customClass="DismissSegue" id="erK-up-tc6"/>
@@ -757,16 +821,21 @@ Weather data proivded by OpenWeatherMap</string>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="carryField" destination="nPT-69-JQD" id="JrQ-rt-xaS"/>
+                        <outlet property="loftField" destination="obL-21-kop" id="7oV-RZ-aCr"/>
+                        <outlet property="nameField" destination="4LC-M0-yUS" id="PcG-2S-ECz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jfS-1v-606" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3093" y="1128"/>
+            <point key="canvasLocation" x="3094" y="1295"/>
         </scene>
     </scenes>
     <resources>
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="3y8-aq-S4C"/>
+        <segue reference="x9B-8r-qZQ"/>
     </inferredMetricsTieBreakers>
 </document>

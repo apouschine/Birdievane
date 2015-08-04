@@ -57,8 +57,10 @@ class Conds {
                 var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
                 let w: AnyObject = jsonResult["wind"]!
                 
-                // this one has always been returned, the other two have been spotty
+                // this one has always been returned
                 speed = w["speed"]! as Double
+                
+                // these two have been spotty
                 if let angle_check = w["deg"] as? NSDictionary {
                     angle = w["deg"]! as Double
                 }

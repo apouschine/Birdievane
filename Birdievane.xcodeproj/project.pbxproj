@@ -21,6 +21,7 @@
 		FA9C11811B60485E00761E94 /* Wind.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9C11801B60485E00761E94 /* Wind.swift */; };
 		FA9C11831B6049EF00761E94 /* Conds.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9C11821B6049EF00761E94 /* Conds.swift */; };
 		FA9C11851B6062B100761E94 /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9C11841B6062B100761E94 /* CalculatorViewController.swift */; };
+		FABCECCD1B7052DC00DA04AF /* EditClubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABCECCC1B7052DC00DA04AF /* EditClubViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		FA9C11801B60485E00761E94 /* Wind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wind.swift; sourceTree = "<group>"; };
 		FA9C11821B6049EF00761E94 /* Conds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conds.swift; sourceTree = "<group>"; };
 		FA9C11841B6062B100761E94 /* CalculatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
+		FABCECCC1B7052DC00DA04AF /* EditClubViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditClubViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 				FA9C11781B60412D00761E94 /* AddClubViewController.swift */,
 				FA9C117A1B60414900761E94 /* BagViewController.swift */,
 				FA9C11841B6062B100761E94 /* CalculatorViewController.swift */,
+				FABCECCC1B7052DC00DA04AF /* EditClubViewController.swift */,
 				FA9C117E1B60446E00761E94 /* WindViewController.swift */,
 				FA9C11741B6040C900761E94 /* Bag.swift */,
 				FA9C11821B6049EF00761E94 /* Conds.swift */,
@@ -242,6 +245,7 @@
 				FA9C11771B6040F600761E94 /* Club.swift in Sources */,
 				FA9C117B1B60414900761E94 /* BagViewController.swift in Sources */,
 				FA9C117D1B60433700761E94 /* DismissSegue.swift in Sources */,
+				FABCECCD1B7052DC00DA04AF /* EditClubViewController.swift in Sources */,
 				FA9C117F1B60446E00761E94 /* WindViewController.swift in Sources */,
 				FA1747741B603ED30029F05E /* AppDelegate.swift in Sources */,
 				FA9C11831B6049EF00761E94 /* Conds.swift in Sources */,

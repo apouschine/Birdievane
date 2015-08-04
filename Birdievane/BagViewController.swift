@@ -11,6 +11,7 @@ import UIKit
 class BagViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var bagTableView: UITableView!
+    var activeIndex: Int?
     
     //var editViewController: EditClubViewController? = nil
     
@@ -23,6 +24,11 @@ class BagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         var addClubButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addClubPressed")
         self.navigationItem.rightBarButtonItem = addClubButton
         
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.bagTableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -47,18 +53,17 @@ class BagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("showEditClub", sender: tableView)
-        
+        activeIndex = indexPath.row
+        performSegueWithIdentifier("showEditClub", sender: self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        /*if segue.identifier == "editClub" {
-            if let indexPath = self.bagTableView.indexPathForSelectedRow() {
-                let club = Bag.sharedInstance.clubs[indexPath.row] as Club
-                let controller = (segue.destinationViewController as UINavigationController).topViewController as EditClubViewController
-                controller.detailItem = club
-            }
-        }*/
+        if segue.identifier == "showEditClub" {
+            var navVC = segue.destinationViewController as UINavigationController
+            
+            var destinationVC = navVC.viewControllers.first as EditClubViewController
+            destinationVC.index = activeIndex
+        }
     }
     
     // MARK: - Button Actions
