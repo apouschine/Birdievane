@@ -21,7 +21,7 @@ class BagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         // Do any additional setup after loading the view.
         self.bagTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "ClubCellBag")
         
-        var addClubButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addClubPressed")
+        let addClubButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addClubPressed")
         self.navigationItem.rightBarButtonItem = addClubButton
         
     }
@@ -42,10 +42,12 @@ class BagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell:UITableViewCell = bagTableView.dequeueReusableCellWithIdentifier("ClubCellBag") as UITableViewCell
+        let cell:UITableViewCell = bagTableView.dequeueReusableCellWithIdentifier("ClubCellBag")! 
         
         let club = Bag.sharedInstance.get(indexPath.row)
-        var subtitle = " (Carry: " + String(club.carry) + ", " + " Loft: " + String(club.loft) + ")"
+        let carry_str = String(club.carry)
+        let loft_str = String(club.loft)
+        let subtitle = " (Carry: " + carry_str + ", " + " Loft: " + loft_str + ")"
         
         cell.textLabel?.text = club.name + subtitle
         
@@ -59,9 +61,9 @@ class BagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showEditClub" {
-            var navVC = segue.destinationViewController as UINavigationController
+            let navVC = segue.destinationViewController as! UINavigationController
             
-            var destinationVC = navVC.viewControllers.first as EditClubViewController
+            let destinationVC = navVC.viewControllers.first as! EditClubViewController
             destinationVC.index = activeIndex
         }
     }

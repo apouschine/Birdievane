@@ -43,9 +43,9 @@ class EditClubViewController: UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "dismissAndUpdate" {
-            let int_carry = carryField.text.toInt()
-            let int_loft = loftField.text.toInt()
-            var v0 = new_club.get_velocity(int_carry!, loft: int_loft!)
+            let int_carry = Int(carryField.text!)
+            let int_loft = Int(loftField.text!)
+            let v0 = new_club.get_velocity(int_carry!, loft: int_loft!)
             new_club = Club(name: nameField.text!, carry: int_carry!, loft: int_loft!, v0: v0)
             Bag.sharedInstance.updateAtIndex(new_club, atIndex: index!)
         }

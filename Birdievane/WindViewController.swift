@@ -26,6 +26,7 @@ class WindViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        locationManager.startUpdatingHeading()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -41,19 +42,29 @@ class WindViewController: UIViewController, CLLocationManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        var userLocation:CLLocation = locations[0] as CLLocation
-        let lat = manager.location.coordinate.latitude
-        let long = manager.location.coordinate.longitude
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // var userLocation:CLLocation = locations[0]
+        let lat = manager.location!.coordinate.latitude
+        let long = manager.location!.coordinate.longitude
+        let old_wind = Conds.sharedInstance.wind
         Conds.sharedInstance.update(lat, long:long)
+        let wind = Conds.sharedInstance.wind
         
         let center = CLLocationCoordinate2D(latitude: lat, longitude: long)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         
         self.sanityCheckMap.setRegion(region, animated: true)
         self.sanityCheckMap.showsUserLocation = true
+        
+        if (old_wind.speed != wind.speed) {
+            self.windSpeedLabel.text = "Wind Speed: " + String(format: "%.2f",wind.speed) + " mph"
+        }
+        if (old_wind.speed_gust != wind.speed_gust) {
+            self.windGustSpeedLabel.text = "Wind Gust Speed: " + String(format: "%.2f", wind.speed_gust) + " mph"
+        }
+        if (old_wind.direction_text != wind.direction_text) {
+            self.windDirectionLabel.text = "Wind Direction: " + wind.direction_text
+        }
     }
-    
-    
     
 }

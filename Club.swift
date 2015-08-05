@@ -80,7 +80,7 @@ class Club {
                     break
                 }
                 
-                if (t > 12.0) {
+                if (t > 30.0) {
                     return -1.0
                 }
                 

@@ -23,10 +23,10 @@ class Conds {
     init() {
         
         // get coordinates
-        var speed = 0.0
-        var speed_gust = 0.0
-        var angle = 0.0
-        var direction_text = ""
+        let speed = 0.0
+        let speed_gust = 0.0
+        let angle = 0.0
+        let direction_text = ""
         
         // set it to an hour ago, to ensure it's updated when first loaded
         let time = NSDate(timeIntervalSinceNow: -3600)
@@ -39,7 +39,7 @@ class Conds {
         if now.compare(self.wind.time) == .OrderedDescending {
             // open weathermap API
             // as that can do condition lookup by coordinate
-            var key = ""
+            let key = ""
 
             let lat_str = String(format: "%f", lat)
             let long_str = String(format: "%f", long)
@@ -54,23 +54,27 @@ class Conds {
             
             
             let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
-                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
-                let w: AnyObject = jsonResult["wind"]!
+                do {
+                    let jsonResult: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                    let w: AnyObject = jsonResult["wind"]!
                 
-                // this one has always been returned
-                speed = w["speed"]! as Double
+                    // this one has always been returned
+                    speed = w["speed"]! as! Double
                 
-                // these two have been spotty
-                if let angle_check = w["deg"] as? NSDictionary {
-                    angle = w["deg"]! as Double
+                    // these two have been spotty
+                    if let angle_check = w["deg"] as? NSDictionary {
+                        angle = w["deg"]! as! Double
+                    }
+                    if let gust_check = w["gust"] as? NSDictionary {
+                        speed_gust = w["gust"]! as! Double
+                    }
+                
+                    let time = NSDate(timeIntervalSinceNow: self.offset)
+                    let direction_text = self.directionText(angle)
+                    self.wind = Wind(speed:speed, speed_gust: speed_gust, angle: angle, direction_text: direction_text, time: time)
+                } catch {
+                    print(error);
                 }
-                if let gust_check = w["gust"] as? NSDictionary {
-                    speed_gust = w["gust"]! as Double
-                }
-                
-                let time = NSDate(timeIntervalSinceNow: self.offset)
-                let direction_text = self.directionText(angle)
-                self.wind = Wind(speed:speed, speed_gust: speed_gust, angle: angle, direction_text: direction_text, time: time)
                 
             })
             task.resume()

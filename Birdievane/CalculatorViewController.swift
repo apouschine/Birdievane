@@ -35,6 +35,7 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading()
     }
     
@@ -67,27 +68,28 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
         Conds.sharedInstance.update(lat, long: long)
         let wind = Conds.sharedInstance.wind
         
-        // let dir = heading.trueHeading
-        let dir = 225.0
+        self.heading = locationManager.heading
+        let dir = heading.trueHeading
+        //let dir = 225.0
         
         var target_dist: Int
         var v_0: Double
         var d_height: Int
         
-        if distanceField.text.isEmpty {
+        if distanceField.text!.isEmpty {
             target_dist = active_club!.carry
             v_0 = active_club!.v0
         }
         else {
-            target_dist = distanceField.text.toInt()!
+            target_dist = Int(distanceField.text!)!
             v_0 = active_club!.get_velocity(target_dist, loft: active_club!.loft)
         }
         
-        if heightField.text.isEmpty {
+        if heightField.text!.isEmpty {
             d_height = 0
         }
         else {
-            d_height = heightField.text.toInt()!
+            d_height = Int(heightField.text!)!
         }
         
         // calculate for regular wind speed
@@ -104,7 +106,7 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
     }
     
     // MARK: - Calculating stuff
-    func locationManager(manager: CLLocationManager!, didUpdateHeading newHeading: CLHeading!) {
+    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         self.heading = newHeading
     }
     
@@ -126,14 +128,13 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
         let rad_ball = 0.02134 // wolfram alpha
         
         let meters_to_yards_conversion_factor = 0.9144
-        let distance_meters = meters_to_yards_conversion_factor * Double(distance)
         let d_height_meters = meters_to_yards_conversion_factor * Double(d_height)
         
         let deg_to_rad_conversion_factor = M_PI/180.0
         let loft_radians = deg_to_rad_conversion_factor * Double(loft)
         let wind_radians = deg_to_rad_conversion_factor * wind_angle
         let flight_radians = deg_to_rad_conversion_factor * flight_angle
-        var wind_phi = flight_radians - wind_radians
+        let wind_phi = flight_radians - wind_radians
         var flight_phi = 0.0
         
         let mph_to_mps_conversion_factor = 0.447
@@ -151,9 +152,9 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
         
         var v = v_0
         var v_xyplane: Double
-        var v_x = v_0 * sin(theta)
-        var v_y = 0.0 // assuming no horizontal motion at launch
-        var v_z = v_0 * cos(theta)
+        var v_x: Double
+        var v_y: Double
+        var v_z: Double
 
         var v_wind = 0.0
         var output_str = ""
@@ -176,9 +177,9 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
             theta = loft_radians
             flight_phi = 0.0
             v = v_0
-            var v_x = v_0 * sin(theta)
-            var v_y = 0.0 // assuming no horizontal motion at launch
-            var v_z = v_0 * cos(theta)
+            v_x = v_0 * sin(theta)
+            v_y = 0.0 // assuming no horizontal motion at launch
+            v_z = v_0 * cos(theta)
 
             while true{
                 // ball hit ground while going down, stop simulation
@@ -251,9 +252,7 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
             display = msg
         }
         
-        
-        
-        let alertController = UIAlertController(title: "Wind Effects", message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        let alertController = UIAlertController(title: "Wind Effects", message: display, preferredStyle: UIAlertControllerStyle.Alert)
         alertController.addAction(UIAlertAction(title: "Calculate Again", style: UIAlertActionStyle.Default,handler: nil))
         self.presentViewController(alertController, animated: true, completion: nil)
     }
@@ -268,7 +267,7 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
     }
     
     //MARK: Delegates
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return clubnames[row]
     }
     
@@ -277,12 +276,13 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
     }
     
     //MARK: - Location access
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        var userLocation:CLLocation = locations[0] as CLLocation
-        lat = manager.location.coordinate.latitude
-        long = manager.location.coordinate.longitude
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // var userLocation:CLLocation = locations[0]
+        lat = manager.location!.coordinate.latitude
+        long = manager.location!.coordinate.longitude
         Conds.sharedInstance.update(lat, long: long)
     }
+    
 
     /*
     // MARK: - Navigation

@@ -34,15 +34,15 @@ class AddClubViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "dismissAndSave" {
-            let int_carry = carryField.text.toInt()
-            let int_loft = loftField.text.toInt()
+            let int_carry = Int(carryField.text!)
+            let int_loft = Int(loftField.text!)
             
             club = Club(name: nameField.text!, carry: int_carry!, loft: int_loft!, v0: v0)
             Bag.sharedInstance.add(club)
         }
     }
     
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         // check if empty
         if identifier == "dismissAndCancel" {
             return true
@@ -50,29 +50,23 @@ class AddClubViewController: UIViewController {
         
         if identifier == "dismissAndSave" {
         
-            if (nameField.text.isEmpty || carryField.text.isEmpty || loftField.text.isEmpty) {
+            if (nameField.text!.isEmpty || carryField.text!.isEmpty || loftField.text!.isEmpty) {
                 showError("All Fields Required")
                 return false
             }
             
-            if (carryField.text.toInt() == nil) {
+            if (Int(carryField.text!) == nil) {
                 showError("Carry must be a number")
                 return false
             }
             
-            if (loftField.text.toInt() == nil) {
+            if (Int(loftField.text!) == nil) {
                 showError("Loft must be a number")
                 return false
             }
         
-            if (loftField.text.toInt() > 90) {
+            if (Int(loftField.text!) > 90) {
                 showError("Loft cannot be greater than 90 degrees")
-                return false
-            }
-        
-            // check that no club with the same name is in the bag
-            if (contains(Bag.sharedInstance.clubNames, nameField.text)) {
-                showError("Club already in bag")
                 return false
             }
             
@@ -81,9 +75,9 @@ class AddClubViewController: UIViewController {
                 return false
             }
             
-            v0 = club.get_velocity(carryField.text.toInt()!, loft: loftField.text.toInt()!)
+            v0 = club.get_velocity(Int(carryField.text!)!, loft: Int(loftField.text!)!)
             if v0 == -1.0 {
-                showError("Simulated ball took over 12 seconds to land, check carry and loft values")
+                showError("Simulated ball took over 30 seconds to land, check carry and loft values")
                 return false
             }
             
