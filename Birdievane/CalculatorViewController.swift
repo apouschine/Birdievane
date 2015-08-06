@@ -187,7 +187,7 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
                     break
                 }
                 
-                if (t > 12.0) {
+                if (t > 30.0) {
                     return ""
                 }
                 
@@ -237,7 +237,15 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
             dx = abs(dx)
             ypos = abs(ypos)
             
-            output_str = output_str + String(format: "%.2f", dx) + x_sign + String(format:"%.2f", ypos) + y_sign
+            if (i == 0) {
+                output_str = output_str + String(format: "%.2f", dx) + x_sign + String(format:"%.2f", ypos) + y_sign
+            }
+            else if (i == 1 && v_wind != 0.0) {
+                output_str = output_str + String(format: "%.2f", dx) + x_sign + String(format:"%.2f", ypos) + y_sign
+            }
+            else {
+                output_str = output_str + "data not provided."
+            }
         }
         return output_str
     }
@@ -246,7 +254,7 @@ class CalculatorViewController: UIViewController, UIPickerViewDataSource,UIPicke
         var display = ""
         
         if msg == "" {
-            display = "Error: simulated ball took more than 12 seconds to land, check club parameters"
+            display = "Error: simulated ball took more than 30 seconds to land, check club parameters"
         }
         else {
             display = msg
