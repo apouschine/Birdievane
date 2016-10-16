@@ -1,3 +1,5 @@
+Stalled indefinitely due to insufficiently localized wind data
+
 This is a side project, indended for personal and friends and family use, designed to estimate the effects of local wind on a golf ball's flight. Normally, the effects are estimated as something like "aim for the left edge of the bunker on the right", and this project, though far from a perfect simulation, at least gives a numerical estimate.
 
 Accurately modelling wind is extremeley difficult, as many things like tree coverage and swirling effects, changes in altitude and pressure, different wind conditions at different altitudes, and instantaneous variations in wind speed would need to be considered, and those are very difficult to detect. Additionally, human-introduced variations in swing parameters like spin, launch speed, and club face angle at contact provide a ton of uncertainty already, and those can never be accounted for. As this app will almost certianly never be approved by the PGA, USGA, etc. the level of accuracy currently used should be fine for casual golfers, who would be te target audience, and are looking for a numerical approximation, rather than a right answer. 
